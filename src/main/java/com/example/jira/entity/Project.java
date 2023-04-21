@@ -32,13 +32,14 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Issue> issues = new ArrayList<>();
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.MERGE,CascadeType.REFRESH})
-    @JoinTable(name = "users_projects",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "project_id")
-    )
-    private List<User> users = new ArrayList<>();
+//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH,
+//            CascadeType.MERGE,CascadeType.REFRESH})
+//    @JoinTable(name = "users_projects",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "project_id")
+//    )
+//
+//    private List<User> users = new ArrayList<>();
 
     public Project(){
 
@@ -51,7 +52,7 @@ public class Project {
         this.endDate = endDate;
         this.projectManager = projectManager;
         this.issues = issues;
-        this.users = users;
+//        this.users = users;
     }
 
     public int getId() {
@@ -110,13 +111,13 @@ public class Project {
         this.issues = issues;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
+//    public List<User> getUsers() {
+//        return users;
+//    }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
+//    public void setUsers(List<User> users) {
+//        this.users = users;
+//    }
 
     @Override
     public String toString() {

@@ -15,15 +15,15 @@ public class Issue {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "project_id")
+    @JoinColumn(name = "project_id", foreignKey = @ForeignKey(name="issue_project_fk"))
     private Project project;
 
     @ManyToOne
-    @JoinColumn(name = "reporter_id")
+    @JoinColumn(name = "reporter_id", foreignKey = @ForeignKey(name="issue_reporter_fk"))
     private User reportTo;
 
     @ManyToOne
-    @JoinColumn(name = "assignee_id")
+    @JoinColumn(name = "assignee_id", foreignKey = @ForeignKey(name="issue_assignee_fk"))
     private User assignedTo;
 
     @Column(name = "label")

@@ -3,7 +3,9 @@ package com.example.jira.entity;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="users")
@@ -13,8 +15,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="fullName")
-    private String fullName;
+    @Column(name="username")
+    private String username;
 
     @Column(name="email")
     private String email;
@@ -22,8 +24,8 @@ public class User {
     @Column(name="password")
     private String password;
 
-    @Column(name="role")
-    private String role;
+//    @Column(name="role")
+//    private String role;
 
     @OneToMany(mappedBy = "reportTo", cascade = {CascadeType.PERSIST, CascadeType.DETACH,
     CascadeType.MERGE,CascadeType.REFRESH})
@@ -33,17 +35,23 @@ public class User {
             CascadeType.MERGE,CascadeType.REFRESH})
     private List<Issue> assignedIssues = new ArrayList<>();
 
-    @OneToMany(mappedBy = "author", cascade = {CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.MERGE,CascadeType.REFRESH})
-    private List<Comment> comments = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name="user_roles",
+    joinColumns = @JoinColumn(name="user_id"),
+    inverseJoinColumns = @JoinColumn(name="role_id"))
+    private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "changedBy",  cascade = {CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.MERGE,CascadeType.REFRESH})
-    private List<History> history = new ArrayList<>();
+//    @OneToMany(mappedBy = "author", cascade = {CascadeType.PERSIST, CascadeType.DETACH,
+//            CascadeType.MERGE,CascadeType.REFRESH})
+//    private List<Comment> comments = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "changedBy",  cascade = {CascadeType.PERSIST, CascadeType.DETACH,
+//            CascadeType.MERGE,CascadeType.REFRESH})
+//    private List<History> history = new ArrayList<>();
 
-    @OneToMany(mappedBy = "attachedBy",  cascade = {CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.MERGE,CascadeType.REFRESH})
-    private List<Attachment> attachments = new ArrayList<>();
+//    @OneToMany(mappedBy = "attachedBy",  cascade = {CascadeType.PERSIST, CascadeType.DETACH,
+//            CascadeType.MERGE,CascadeType.REFRESH})
+//    private List<Attachment> attachments = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH,
             CascadeType.MERGE,CascadeType.REFRESH})
@@ -56,25 +64,29 @@ public class User {
         return reportingIssues;
     }
 
-    public List<Comment> getComments() {
-        return comments;
-    }
+//    public List<Comment> getComments() {
+//        return comments;
+//    }
 
 
     public User(){
 
     }
 
-    public User(String fullName, String email, String password, String role, List<Issue> reportingIssues, List<Issue> assignedIssues, List<Comment> comments, List<History> history, List<Attachment> attachments, List<Project> projects) {
-        this.fullName = fullName;
+    public User(String username, String email, String password) {
+        this.username = username;
         this.email = email;
         this.password = password;
-        this.role = role;
+    }
+
+    public User(String username, String email, String password, List<Issue> reportingIssues, List<Issue> assignedIssues, Set<Role> roles, List<Project> projects) {
+        super();
+        this.username = username;
+        this.email = email;
+        this.password = password;
         this.reportingIssues = reportingIssues;
         this.assignedIssues = assignedIssues;
-        this.comments = comments;
-        this.history = history;
-        this.attachments = attachments;
+        //this.roles = roles;
         this.projects = projects;
     }
 
@@ -86,12 +98,12 @@ public class User {
         this.id = id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -110,16 +122,16 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
+//    public String getRole() {
+//        return role;
+//    }
+//
+//    public void setRole(String role) {
+//        this.role = role;
+//    }
+//    public void setComments(List<Comment> comments) {
+//        this.comments = comments;
+//    }
 
     public void setReportingIssues(List<Issue> reportingIssues) {
         this.reportingIssues = reportingIssues;
@@ -133,21 +145,21 @@ public class User {
         this.assignedIssues = assignedIssues;
     }
 
-    public List<History> getHistory() {
-        return history;
-    }
+//    public List<History> getHistory() {
+//        return history;
+//    }
+//
+//    public void setHistory(List<History> history) {
+//        this.history = history;
+//    }
 
-    public void setHistory(List<History> history) {
-        this.history = history;
-    }
-
-    public List<Attachment> getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(List<Attachment> attachments) {
-        this.attachments = attachments;
-    }
+//    public List<Attachment> getAttachments() {
+//        return attachments;
+//    }
+//
+//    public void setAttachments(List<Attachment> attachments) {
+//        this.attachments = attachments;
+//    }
 
 
     public List<Project> getProjects() {
@@ -158,19 +170,13 @@ public class User {
         this.projects = projects;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", fullName='" + fullName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
-                ", reportingIssues=" + reportingIssues +
-                ", assignedIssues=" + assignedIssues +
-                ", comments=" + comments +
-                ", history=" + history +
-                ", attachments=" + attachments +
-                '}';
+    public Set<Role> getRoles() {
+        return roles;
     }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+
 }

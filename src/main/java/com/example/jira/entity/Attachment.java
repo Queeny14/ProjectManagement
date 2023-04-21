@@ -13,7 +13,7 @@ public class Attachment {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="attached_by")
+    @JoinColumn(name="attached_by", referencedColumnName = "id")
     private User attachedBy;
 
     @ManyToOne
