@@ -12,11 +12,11 @@ public class Attachment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="attached_by", referencedColumnName = "id")
     private User attachedBy;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="issue_id")
     private Issue issue;
 

@@ -2,10 +2,7 @@ package com.example.jira.entity;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name="users")
@@ -24,7 +21,22 @@ public class User {
     @Column(name="password")
     private String password;
 
-//    @Column(name="role")
+//    String[] jwtArray = {"Sunflower", "Lavender", "Jasmine", "Rose", "Lily", "Daisy"};
+//
+//    Random random = new Random();
+//    int randomNumber = random.nextInt(6);
+//
+//    private String jwtName = jwtArray[randomNumber];
+//
+//    public String getJwtName() {
+//        return jwtName;
+//    }
+//
+//    public void setJwtName(String jwtName) {
+//        this.jwtName = jwtName;
+//    }
+
+    //    @Column(name="role")
 //    private String role;
 
     @OneToMany(mappedBy = "reportTo", cascade = {CascadeType.PERSIST, CascadeType.DETACH,
@@ -35,7 +47,7 @@ public class User {
             CascadeType.MERGE,CascadeType.REFRESH})
     private List<Issue> assignedIssues = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="user_roles",
     joinColumns = @JoinColumn(name="user_id"),
     inverseJoinColumns = @JoinColumn(name="role_id"))
@@ -53,7 +65,7 @@ public class User {
 //            CascadeType.MERGE,CascadeType.REFRESH})
 //    private List<Attachment> attachments = new ArrayList<>();
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH,
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.DETACH,
             CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(name = "users_projects",
                 joinColumns = @JoinColumn(name = "project_id"),

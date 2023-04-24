@@ -18,13 +18,13 @@ public class TestController {
     @GetMapping("/developer")
     @PreAuthorize("hasAuthority('DEVELOPER') or hasAuthority('MANAGER') or hasAuthority('ADMIN')")
     public String userAccess() {
-        return "Developer Todo Content ";
+        return "Developer Board ";
     }
 
     @GetMapping("/manager")
     @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('ADMIN')")
     public String managerAccess() {
-        return "Welcome to the Manager Board.";
+        return "Manager Board.";
     }
 
     @GetMapping("/admin")

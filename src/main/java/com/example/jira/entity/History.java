@@ -12,14 +12,14 @@ public class History {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="issue_id")
     private Issue issue;
 
     @Column(name="field_name")
     private String fieldName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="changed_by")
     private User changedBy;
 

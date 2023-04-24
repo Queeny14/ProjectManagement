@@ -10,7 +10,7 @@ public class Workflow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="issue_id")
     private Issue issue;
 
