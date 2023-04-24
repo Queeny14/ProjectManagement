@@ -1,0 +1,3 @@
+Welcome to Jira Project Management System.
+
+We are creating a project management tool like jira with our own features and functionalities. In this we have created 3 roles Developer, Manager and Admin with their respective authorities wherein the Admin has access to everything like creating project,deleting project,changing the project manager. Manager has the rights for viewing the projects.Whereas the developer has no authority to the projects.He/She can just see the tasks assigned to him/her.
