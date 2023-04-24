@@ -6,11 +6,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name="attachments")
-public class Attachment {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class Attachment extends Parent {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="attached_by", referencedColumnName = "id")
@@ -45,13 +41,6 @@ public class Attachment {
         this.createdDate = createdDate;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public User getAttachedBy() {
         return attachedBy;
@@ -104,7 +93,6 @@ public class Attachment {
     @Override
     public String toString() {
         return "Attachment{" +
-                "id=" + id +
                 ", attachedBy=" + attachedBy +
                 ", issue=" + issue +
                 ", filename='" + filename + '\'' +

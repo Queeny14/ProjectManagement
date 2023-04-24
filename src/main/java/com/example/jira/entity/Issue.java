@@ -8,11 +8,8 @@ import java.util.List;
 
 @Entity
 @Table(name="issues")
-public class Issue {
+public class Issue extends Parent{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", foreignKey = @ForeignKey(name="issue_project_fk"))
@@ -84,13 +81,6 @@ public class Issue {
         this.attachments = attachments;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Project getProject() {
         return project;

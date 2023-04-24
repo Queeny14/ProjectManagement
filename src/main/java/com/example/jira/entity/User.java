@@ -6,11 +6,8 @@ import java.util.*;
 
 @Entity
 @Table(name="users")
-public class User {
+public class User extends Parent {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 
     @Column(name="username")
     private String username;
@@ -100,14 +97,6 @@ public class User {
         this.assignedIssues = assignedIssues;
         //this.roles = roles;
         this.projects = projects;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getUsername() {

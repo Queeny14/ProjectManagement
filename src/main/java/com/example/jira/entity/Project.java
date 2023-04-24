@@ -8,11 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name="projects")
-public class Project {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class Project extends Parent {
 
     @Column(name="name", unique = true)
     private String name;
@@ -53,14 +49,6 @@ public class Project {
         this.projectManager = projectManager;
         this.issues = issues;
 //        this.users = users;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -122,7 +110,6 @@ public class Project {
     @Override
     public String toString() {
         return "Project{" +
-                "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", startDate=" + startDate +

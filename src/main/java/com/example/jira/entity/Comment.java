@@ -6,11 +6,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name="comments")
-public class Comment {
+public class Comment extends Parent{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="author_id")
@@ -36,13 +33,6 @@ public class Comment {
         this.createdDate = createdDate;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public User getAuthor() {
         return author;

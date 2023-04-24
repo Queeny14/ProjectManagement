@@ -4,11 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name="workflow")
-public class Workflow {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class Workflow extends Parent {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="issue_id")
@@ -34,13 +30,6 @@ public class Workflow {
         this.steps = steps;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Issue getIssue() {
         return issue;
@@ -77,7 +66,6 @@ public class Workflow {
     @Override
     public String toString() {
         return "Workflow{" +
-                "id=" + id +
                 ", issue=" + issue +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

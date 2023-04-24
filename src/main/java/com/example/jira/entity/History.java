@@ -6,11 +6,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name="history")
-public class History {
+public class History extends Parent {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="issue_id")
@@ -37,13 +34,6 @@ public class History {
         this.changedDate = changedDate;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Issue getIssue() {
         return issue;
@@ -80,7 +70,6 @@ public class History {
     @Override
     public String toString() {
         return "History{" +
-                "id=" + id +
                 ", issue=" + issue +
                 ", fieldName='" + fieldName + '\'' +
                 ", changedBy=" + changedBy +
