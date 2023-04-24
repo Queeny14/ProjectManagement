@@ -2,7 +2,7 @@ package com.example.jira.entity;
 
 import jakarta.persistence.*;
 
-@MappedSuperclass
+@MappedSuperclass //used when we use the concept of ineheritance in JPA
 public class Parent {
 
     @Id
