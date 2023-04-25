@@ -5,7 +5,7 @@ public enum IssuePriority {
     MAJOR("Major"),
     MINOR("Minor");
 
-    private final String priority;
+    private String priority;
 
     IssuePriority(String priority) {
         this.priority = priority;

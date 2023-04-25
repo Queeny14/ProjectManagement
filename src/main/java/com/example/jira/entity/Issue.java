@@ -1,5 +1,6 @@
 package com.example.jira.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -12,14 +13,17 @@ public class Issue extends Parent{
 
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "project_id", foreignKey = @ForeignKey(name="issue_project_fk"))
     private Project project;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "reporter_id", foreignKey = @ForeignKey(name="issue_reporter_fk"))
     private User reportTo;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "assignee_id", foreignKey = @ForeignKey(name="issue_assignee_fk"))
     private User assignedTo;
 
@@ -34,9 +38,11 @@ public class Issue extends Parent{
     private String description;
 
     @Column(name = "priority")
+    @Enumerated(EnumType.STRING)
     private IssuePriority priority;
 
     @Column(name = "status")
+
     private String status;
 
     @Column(name = "created_date")
