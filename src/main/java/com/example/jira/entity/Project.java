@@ -1,13 +1,19 @@
 package com.example.jira.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name="projects")
+@JsonIdentityInfo(
+        scope = Project.class,
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Project extends Parent {
 
     @Column(name="name", unique = true)
@@ -22,11 +28,12 @@ public class Project extends Parent {
     @Column(name="end_date")
     private LocalDate endDate;
 
-    @Column(name = "project_manager")
-    private String projectManager;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User projectManager;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
-    private List<Issue> issues = new ArrayList<>();
+//    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+//    private List<Issue> issues = new ArrayList<>();
 
 //    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH,
 //            CascadeType.MERGE,CascadeType.REFRESH})
@@ -41,13 +48,21 @@ public class Project extends Parent {
 
     }
 
-    public Project(String name, String description, LocalDate startDate, LocalDate endDate, String projectManager, List<Issue> issues, List<User> users) {
+    public User getProjectManager() {
+        return projectManager;
+    }
+
+    public void setProjectManager(User projectManager) {
+        this.projectManager = projectManager;
+    }
+
+    public Project(String name, String description, LocalDate startDate, LocalDate endDate, User projectManager, List<Issue> issues, List<User> users) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.projectManager = projectManager;
-        this.issues = issues;
+       // this.issues = issues;
 //        this.users = users;
     }
 
@@ -83,21 +98,15 @@ public class Project extends Parent {
         this.endDate = endDate;
     }
 
-    public String getProjectManager() {
-        return projectManager;
-    }
 
-    public void setProjectManager(String projectManager) {
-        this.projectManager = projectManager;
-    }
 
-    public List<Issue> getIssues() {
-        return issues;
-    }
-
-    public void setIssues(List<Issue> issues) {
-        this.issues = issues;
-    }
+//    public List<Issue> getIssues() {
+//        return issues;
+//    }
+//
+//    public void setIssues(List<Issue> issues) {
+//        this.issues = issues;
+//    }
 
 //    public List<User> getUsers() {
 //        return users;
@@ -115,7 +124,7 @@ public class Project extends Parent {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", projectManager='" + projectManager + '\'' +
-                ", issues=" + issues +
+                //", issues=" + issues +
                 '}';
     }
 }

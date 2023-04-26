@@ -1,29 +1,34 @@
 package com.example.jira.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name="issues")
+@JsonIdentityInfo(
+        scope = Issue.class,
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Issue extends Parent{
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "project_id", foreignKey = @ForeignKey(name="issue_project_fk"))
     private Project project;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "reporter_id", foreignKey = @ForeignKey(name="issue_reporter_fk"))
     private User reportTo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "assignee_id", foreignKey = @ForeignKey(name="issue_assignee_fk"))
     private User assignedTo;
 
@@ -42,7 +47,6 @@ public class Issue extends Parent{
     private IssuePriority priority;
 
     @Column(name = "status")
-
     private String status;
 
     @Column(name = "created_date")
@@ -54,17 +58,17 @@ public class Issue extends Parent{
     @Column(name = "sprint")
     private String sprint;
 
-    @OneToOne(mappedBy = "issue", cascade = CascadeType.ALL)
-    private Workflow workflow;
-
-    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
-
-    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
-    private List<History> history = new ArrayList<>();
-
-    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
-    private  List<Attachment> attachments = new ArrayList<>();
+//    @OneToOne(mappedBy = "issue", cascade = CascadeType.ALL)
+//    private Workflow workflow;
+//
+//    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
+//    private List<Comment> comments = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
+//    private List<History> history = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
+//    private  List<Attachment> attachments = new ArrayList<>();
 
     public Issue() {
     }
@@ -81,10 +85,10 @@ public class Issue extends Parent{
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
         this.sprint = sprint;
-        this.workflow = workflow;
-        this.comments = comments;
-        this.history = history;
-        this.attachments = attachments;
+//        this.workflow = workflow;
+//        this.comments = comments;
+//        this.history = history;
+//        this.attachments = attachments;
     }
 
 
@@ -176,35 +180,43 @@ public class Issue extends Parent{
         this.sprint = sprint;
     }
 
-    public Workflow getWorkflow() {
-        return workflow;
-    }
+//    public Workflow getWorkflow() {
+//        return workflow;
+//    }
+//
+//    public void setWorkflow(Workflow workflow) {
+//        this.workflow = workflow;
+//    }
+//
+//    public List<Comment> getComments() {
+//        return comments;
+//    }
+//
+//    public void setComments(List<Comment> comments) {
+//        this.comments = comments;
+//    }
+//
+//    public List<History> getHistory() {
+//        return history;
+//    }
+//
+//    public void setHistory(List<History> history) {
+//        this.history = history;
+//    }
+//
+//    public List<Attachment> getAttachments() {
+//        return attachments;
+//    }
+//
+//    public void setAttachments(List<Attachment> attachments) {
+//        this.attachments = attachments;
+    //}
 
-    public void setWorkflow(Workflow workflow) {
-        this.workflow = workflow;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public List<History> getHistory() {
-        return history;
-    }
-
-    public void setHistory(List<History> history) {
-        this.history = history;
-    }
-
-    public List<Attachment> getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(List<Attachment> attachments) {
-        this.attachments = attachments;
-    }
+//    public String getProjectName() {
+//        return project.getName();
+//    }
+//
+//    public void setProjectName(String projectName) {
+//        project.setName(projectName);
+//    }
 }

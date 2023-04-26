@@ -1,11 +1,22 @@
 package com.example.jira.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="users")
+@JsonIdentityInfo(
+        scope = User.class,
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class User extends Parent {
 
 
@@ -16,33 +27,21 @@ public class User extends Parent {
     private String email;
 
     @Column(name="password")
+    @JsonIgnore
     private String password;
 
-//    String[] jwtArray = {"Sunflower", "Lavender", "Jasmine", "Rose", "Lily", "Daisy"};
-//
-//    Random random = new Random();
-//    int randomNumber = random.nextInt(6);
-//
-//    private String jwtName = jwtArray[randomNumber];
-//
-//    public String getJwtName() {
-//        return jwtName;
-//    }
-//
-//    public void setJwtName(String jwtName) {
-//        this.jwtName = jwtName;
-//    }
+    @OneToMany(mappedBy = "projectManager", cascade = CascadeType.ALL)
+    private List<Project> projects = new ArrayList<>();
 
-    //    @Column(name="role")
-//    private String role;
 
-    @OneToMany(mappedBy = "reportTo", cascade = {CascadeType.PERSIST, CascadeType.DETACH,
-    CascadeType.MERGE,CascadeType.REFRESH})
-    private List<Issue>  reportingIssues = new ArrayList<>();
 
-    @OneToMany(mappedBy = "assignedTo", cascade = {CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.MERGE,CascadeType.REFRESH})
-    private List<Issue> assignedIssues = new ArrayList<>();
+//    @OneToMany(mappedBy = "reportTo", cascade = {CascadeType.PERSIST, CascadeType.DETACH,
+//    CascadeType.MERGE,CascadeType.REFRESH})
+//    private List<Issue>  reportingIssues = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "assignedTo", cascade = {CascadeType.PERSIST, CascadeType.DETACH,
+//            CascadeType.MERGE,CascadeType.REFRESH})
+//    private List<Issue> assignedIssues = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="user_roles",
@@ -62,16 +61,16 @@ public class User extends Parent {
 //            CascadeType.MERGE,CascadeType.REFRESH})
 //    private List<Attachment> attachments = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.MERGE,CascadeType.REFRESH})
-    @JoinTable(name = "users_projects",
-                joinColumns = @JoinColumn(name = "project_id"),
-                inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private List<Project> projects = new ArrayList<>();
-    public List<Issue> getReportingIssues() {
-        return reportingIssues;
-    }
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.DETACH,
+//            CascadeType.MERGE,CascadeType.REFRESH})
+//    @JoinTable(name = "users_projects",
+//                joinColumns = @JoinColumn(name = "project_id"),
+//                inverseJoinColumns = @JoinColumn(name = "user_id")
+//    )
+//    private List<Project> projects = new ArrayList<>();
+//    public List<Issue> getReportingIssues() {
+//        return reportingIssues;
+//    }
 
 //    public List<Comment> getComments() {
 //        return comments;
@@ -93,8 +92,8 @@ public class User extends Parent {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.reportingIssues = reportingIssues;
-        this.assignedIssues = assignedIssues;
+//        this.reportingIssues = reportingIssues;
+//        this.assignedIssues = assignedIssues;
         //this.roles = roles;
         this.projects = projects;
     }
@@ -134,17 +133,17 @@ public class User extends Parent {
 //        this.comments = comments;
 //    }
 
-    public void setReportingIssues(List<Issue> reportingIssues) {
-        this.reportingIssues = reportingIssues;
-    }
-
-    public List<Issue> getAssignedIssues() {
-        return assignedIssues;
-    }
-
-    public void setAssignedIssues(List<Issue> assignedIssues) {
-        this.assignedIssues = assignedIssues;
-    }
+//    public void setReportingIssues(List<Issue> reportingIssues) {
+//        this.reportingIssues = reportingIssues;
+//    }
+//
+//    public List<Issue> getAssignedIssues() {
+//        return assignedIssues;
+//    }
+//
+//    public void setAssignedIssues(List<Issue> assignedIssues) {
+//        this.assignedIssues = assignedIssues;
+//    }
 
 //    public List<History> getHistory() {
 //        return history;

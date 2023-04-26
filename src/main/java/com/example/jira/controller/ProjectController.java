@@ -1,7 +1,9 @@
 package com.example.jira.controller;
 
 import com.example.jira.entity.Project;
+import com.example.jira.entity.User;
 import com.example.jira.service.ProjectService;
+import com.example.jira.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,9 @@ public class ProjectController {
 
     @Autowired
     private ProjectService projectService ;
+
+    @Autowired
+    private UserService userService;
 
 
     @GetMapping("/projects")
@@ -41,7 +46,13 @@ public class ProjectController {
     @PostMapping("/projects")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Project> addProject(@RequestBody Project theProject) {
-        theProject.setId(0);
+        User projectManager = userService.findById(theProject.getProjectManager().getId());
+        System.out.println(projectManager);
+        if(projectManager == null) {
+            throw new RuntimeException("project id not found : "+ theProject.getProjectManager().getId());
+        }
+        theProject.setProjectManager(projectManager);
+//        theProject.setId(0);
         projectService.save(theProject);
         return ResponseEntity.ok().body(theProject);
     }
