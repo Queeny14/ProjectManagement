@@ -1,17 +1,16 @@
 package com.example.jira.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name="workflow")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Workflow extends Parent {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="issue_id")
     private Issue issue;
-
-    @Column(name="name")
-    private String name;
 
     @Column(name="description")
     private String description;
@@ -25,7 +24,6 @@ public class Workflow extends Parent {
 
     public Workflow(Issue issue, String name, String description, String steps) {
         this.issue = issue;
-        this.name = name;
         this.description = description;
         this.steps = steps;
     }
@@ -37,14 +35,6 @@ public class Workflow extends Parent {
 
     public void setIssue(Issue issue) {
         this.issue = issue;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getDescription() {
@@ -63,13 +53,5 @@ public class Workflow extends Parent {
         this.steps = steps;
     }
 
-    @Override
-    public String toString() {
-        return "Workflow{" +
-                ", issue=" + issue +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", steps='" + steps + '\'' +
-                '}';
-    }
+
 }

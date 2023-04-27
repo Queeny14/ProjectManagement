@@ -1,6 +1,7 @@
 package com.example.jira.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
@@ -14,6 +15,7 @@ import java.util.List;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Issue extends Parent{
 
 
@@ -35,9 +37,6 @@ public class Issue extends Parent{
     @Column(name = "label")
     @Enumerated(EnumType.STRING)
     private IssueLabel label;
-
-    @Column(name = "summary")
-    private String summary;
 
     @Column(name = "description")
     private String description;
@@ -78,7 +77,6 @@ public class Issue extends Parent{
         this.reportTo = reportTo;
         this.assignedTo = assignedTo;
         this.label = label;
-        this.summary = summary;
         this.description = description;
         this.priority = priority;
         this.status = status;
@@ -123,15 +121,6 @@ public class Issue extends Parent{
     public void setLabel(IssueLabel label) {
         this.label = label;
     }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
     public String getDescription() {
         return description;
     }

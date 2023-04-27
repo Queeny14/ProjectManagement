@@ -2,10 +2,10 @@ package com.example.jira.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +17,7 @@ import java.util.Set;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User extends Parent {
 
 
@@ -30,8 +31,8 @@ public class User extends Parent {
     @JsonIgnore
     private String password;
 
-    @OneToMany(mappedBy = "projectManager", cascade = CascadeType.ALL)
-    private List<Project> projects = new ArrayList<>();
+//    @OneToMany(mappedBy = "projectManager", cascade = CascadeType.ALL)
+//    private List<Project> projects = new ArrayList<>();
 
 
 
@@ -95,7 +96,7 @@ public class User extends Parent {
 //        this.reportingIssues = reportingIssues;
 //        this.assignedIssues = assignedIssues;
         //this.roles = roles;
-        this.projects = projects;
+       // this.projects = projects;
     }
 
     public String getUsername() {
@@ -162,13 +163,13 @@ public class User extends Parent {
 //    }
 
 
-    public List<Project> getProjects() {
-        return projects;
-    }
-
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
-    }
+//    public List<Project> getProjects() {
+//        return projects;
+//    }
+//
+//    public void setProjects(List<Project> projects) {
+//        this.projects = projects;
+//    }
 
     public Set<Role> getRoles() {
         return roles;
