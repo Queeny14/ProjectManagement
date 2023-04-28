@@ -2,6 +2,7 @@ package com.example.jira.service;
 
 import com.example.jira.dao.WorkflowRepository;
 import com.example.jira.entity.Workflow;
+import com.example.jira.exception.CustomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,14 +25,12 @@ public class WorkflowServiceImpl implements WorkflowService{
     public Workflow findById(int theId) {
         Optional<Workflow> result = workflowRepository.findById(theId);
 
-        Workflow theWorkflow = null;
-
-        if (result.isPresent()) {
-            theWorkflow = result.get();
-        } else {
-
-            throw new RuntimeException("Did not find workflow id - " + theId);
+        if(result.isEmpty()){
+            throw new CustomNotFoundException("Requested Workflow does not exist");
         }
+
+        Workflow theWorkflow = null;
+        theWorkflow = result.get();
         return theWorkflow;
     }
 

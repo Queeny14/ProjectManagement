@@ -2,6 +2,7 @@ package com.example.jira.service;
 
 import com.example.jira.dao.UserRepository;
 import com.example.jira.entity.User;
+import com.example.jira.exception.CustomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,18 +30,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(int theId) {
+
+
         Optional<User> result = userRepository.findById(theId);
 
+        if(result.isEmpty()){
+            throw new CustomNotFoundException("Requested User id does not exist");
+        }
         User theUser = null;
-
-        if (result.isPresent()) {
-            theUser = result.get();
-        }
-        else {
-
-            throw new RuntimeException("Did not find user id - " + theId);
-        }
-        return theUser;
+        theUser = result.get();
+        return  theUser;
+//
+//        User theUser = null;
+//
+//        if (result.isPresent()) {
+//            theUser = result.get();
+//        }
+//        else {
+//
+//            throw new RuntimeException("Did not find user id - " + theId);
+//        }
+//        return theUser;
     }
 
     @Override

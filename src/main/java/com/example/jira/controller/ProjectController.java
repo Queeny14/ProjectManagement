@@ -2,6 +2,7 @@ package com.example.jira.controller;
 
 import com.example.jira.entity.Project;
 import com.example.jira.entity.User;
+import com.example.jira.exception.CustomNotFoundException;
 import com.example.jira.service.ProjectService;
 import com.example.jira.service.UserService;
 import jakarta.validation.Valid;
@@ -36,20 +37,17 @@ public class ProjectController {
     @PreAuthorize("hasAuthority('MANAGER') or hasAuthority('ADMIN')")
     public ResponseEntity<Project> getProject(@PathVariable int projectId) {
         Project theProject =projectService.findById(projectId);
-
-        if(theProject == null) {
-            throw new RuntimeException("project id not found : "+projectId);
-        }
         return ResponseEntity.ok().body(theProject);
     }
 
     @PostMapping("/projects")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Project> addProject(@RequestBody Project theProject) {
+
         User projectManager = userService.findById(theProject.getProjectManager().getId());
-        System.out.println(projectManager);
+
         if(projectManager == null) {
-            throw new RuntimeException("project id not found : "+ theProject.getProjectManager().getId());
+            throw new CustomNotFoundException("Invalid user id");
         }
         theProject.setProjectManager(projectManager);
 //        theProject.setId(0);
@@ -70,7 +68,7 @@ public class ProjectController {
         Project theProject = projectService.findById(projectId);
 
         if(theProject == null) {
-            throw new RuntimeException("project id not found : "+projectId);
+            throw new CustomNotFoundException("project id not found");
         }
         projectService.deleteById(projectId);
         return theProject;

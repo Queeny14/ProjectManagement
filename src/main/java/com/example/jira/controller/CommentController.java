@@ -3,6 +3,7 @@ package com.example.jira.controller;
 import com.example.jira.entity.Comment;
 import com.example.jira.entity.Issue;
 import com.example.jira.entity.User;
+import com.example.jira.exception.CustomNotFoundException;
 import com.example.jira.service.CommentService;
 import com.example.jira.service.IssueService;
 import com.example.jira.service.UserService;
@@ -38,10 +39,6 @@ public class CommentController {
     @PreAuthorize("hasAuthority('DEVELOPER') or hasAuthority('MANAGER') or hasAuthority('ADMIN')")
     public ResponseEntity<Comment> getComment(@PathVariable int commentId) {
         Comment theComment =commentService.findById(commentId);
-
-        if(theComment == null) {
-            throw new RuntimeException("issue id not found : "+commentId);
-        }
         return ResponseEntity.ok().body(theComment);
     }
 
@@ -52,13 +49,13 @@ public class CommentController {
         Issue theIssue = issueService.findById(theComment.getIssue().getId());
 
         if(theIssue == null) {
-            throw new RuntimeException("issue id not found : "+ theComment.getIssue().getId());
+            throw new CustomNotFoundException("issue id not found ");
         }
 
         User author = userService.findById(theComment.getAuthor().getId());
 
         if(author == null){
-            throw new RuntimeException("author id not found : "+ theComment.getAuthor().getId());
+            throw new CustomNotFoundException("author id not found ");
         }
 
 
@@ -74,7 +71,7 @@ public class CommentController {
         Comment theComment = commentService.findById(commentId);
 
         if(theComment == null) {
-            throw new RuntimeException("comment id not found : "+ commentId);
+            throw new CustomNotFoundException("comment id not found ");
         }
         commentService.deleteById(commentId);
         return theComment;

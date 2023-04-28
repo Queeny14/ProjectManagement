@@ -3,6 +3,7 @@ package com.example.jira.controller;
 import com.example.jira.entity.Attachment;
 import com.example.jira.entity.Issue;
 import com.example.jira.entity.User;
+import com.example.jira.exception.CustomNotFoundException;
 import com.example.jira.service.AttachmentService;
 import com.example.jira.service.IssueService;
 import com.example.jira.service.UserService;
@@ -38,10 +39,6 @@ public class AttachmentController {
     @PreAuthorize("hasAuthority('DEVELOPER') or hasAuthority('MANAGER') or hasAuthority('ADMIN')")
     public ResponseEntity<Attachment> getAttachment(@PathVariable int attachmentId) {
         Attachment theAttachment = attachmentService.findById(attachmentId);
-
-        if(theAttachment == null) {
-            throw new RuntimeException("issue id not found : "+attachmentId);
-        }
         return ResponseEntity.ok().body(theAttachment);
     }
 
@@ -52,13 +49,13 @@ public class AttachmentController {
         Issue theIssue = issueService.findById(theAttachment.getIssue().getId());
 
         if(theIssue == null) {
-            throw new RuntimeException("issue id not found : "+ theAttachment.getIssue().getId());
+            throw new CustomNotFoundException("issue id not found ");
         }
 
         User attachedBy = userService.findById(theAttachment.getAttachedBy().getId());
 
         if(attachedBy == null){
-            throw new RuntimeException("author id not found : "+ theAttachment.getAttachedBy().getId());
+            throw new CustomNotFoundException("author id not found ");
         }
 
         theAttachment.setIssue(theIssue);
@@ -73,7 +70,7 @@ public class AttachmentController {
         Attachment theAttachment = attachmentService.findById(attachmentId);
 
         if(attachmentService == null) {
-            throw new RuntimeException("attachment id not found : "+ attachmentId);
+            throw new CustomNotFoundException("attachment id not found ");
         }
         attachmentService.deleteById(attachmentId);
         return theAttachment;

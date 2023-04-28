@@ -2,6 +2,7 @@ package com.example.jira.service;
 
 import com.example.jira.dao.IssueRepository;
 import com.example.jira.entity.Issue;
+import com.example.jira.exception.CustomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,16 +31,23 @@ public class IssueServiceImpl implements IssueService{
     public Issue findById(int theId) {
         Optional<Issue> result = issueRepository.findById(theId);
 
+        if(result.isEmpty()){
+            throw new CustomNotFoundException("Requested issue id does not exist");
+        }
         Issue theIssue = null;
-
-        if (result.isPresent()) {
-            theIssue = result.get();
-        }
-        else {
-
-            throw new RuntimeException("Did not find issue id - " + theId);
-        }
+        theIssue = result.get();
         return theIssue;
+
+//        Issue theIssue = null;
+//
+//        if (result.isPresent()) {
+//            theIssue = result.get();
+//        }
+//        else {
+//
+//            throw new RuntimeException("Did not find issue id - " + theId);
+//        }
+//        return theIssue;
     }
 
     @Override

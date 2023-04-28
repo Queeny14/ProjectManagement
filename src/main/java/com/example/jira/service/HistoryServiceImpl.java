@@ -2,6 +2,7 @@ package com.example.jira.service;
 
 import com.example.jira.dao.HistoryRepository;
 import com.example.jira.entity.History;
+import com.example.jira.exception.CustomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,16 +26,26 @@ public class HistoryServiceImpl implements HistoryService {
     public History findById(int theId) {
         Optional<History> result = historyRepository.findById(theId);
 
-        History theHistory = null;
+        if (result.isEmpty()) {
+            throw new CustomNotFoundException("Requested History does not exist");
 
-        if (result.isPresent()) {
-            theHistory = result.get();
-        } else {
-
-            throw new RuntimeException("Did not find history id - " + theId);
         }
+
+        History theHistory = null;
+        theHistory = result.get();
         return theHistory;
     }
+
+//        History theHistory = null;
+//
+//        if (result.isPresent()) {
+//            theHistory = result.get();
+//        } else {
+//
+//            throw new RuntimeException("Did not find history id - " + theId);
+//        }
+//        return theHistory;
+
 
     @Override
     public void save(History theHistory) {

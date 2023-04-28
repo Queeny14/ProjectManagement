@@ -2,6 +2,7 @@ package com.example.jira.controller;
 
 import com.example.jira.entity.Issue;
 import com.example.jira.entity.Workflow;
+import com.example.jira.exception.CustomNotFoundException;
 import com.example.jira.service.IssueService;
 import com.example.jira.service.WorkflowService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +34,6 @@ public class WorkflowController {
     @PreAuthorize("hasAuthority('DEVELOPER') or hasAuthority('MANAGER') or hasAuthority('ADMIN')")
     public ResponseEntity<Workflow> getWorkflow(@PathVariable int workFlowId) {
         Workflow theWorkflow = workflowService.findById(workFlowId);
-
-        if(theWorkflow == null) {
-            throw new RuntimeException("workflow  not found : "+ workFlowId);
-        }
         return ResponseEntity.ok().body(theWorkflow);
     }
 
@@ -47,7 +44,7 @@ public class WorkflowController {
         Issue theIssue = issueService.findById(theWorkflow.getIssue().getId());
 
         if(theIssue == null) {
-            throw new RuntimeException("issue id not found : "+ theWorkflow.getIssue().getId());
+            throw new CustomNotFoundException("issue id not found ");
         }
 
         theWorkflow.setIssue(theIssue);
@@ -61,7 +58,7 @@ public class WorkflowController {
         Workflow theWorkflow = workflowService.findById(workFlowId);
 
         if(workflowService == null) {
-            throw new RuntimeException("attachment id not found : "+ workFlowId);
+            throw new CustomNotFoundException("attachment id not found ");
         }
         workflowService.deleteById(workFlowId);
         return theWorkflow;

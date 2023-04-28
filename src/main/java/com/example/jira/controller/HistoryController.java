@@ -3,6 +3,7 @@ package com.example.jira.controller;
 import com.example.jira.entity.History;
 import com.example.jira.entity.Issue;
 import com.example.jira.entity.User;
+import com.example.jira.exception.CustomNotFoundException;
 import com.example.jira.service.HistoryService;
 import com.example.jira.service.IssueService;
 import com.example.jira.service.UserService;
@@ -38,10 +39,6 @@ public class HistoryController {
     @PreAuthorize("hasAuthority('DEVELOPER') or hasAuthority('MANAGER') or hasAuthority('ADMIN')")
     public ResponseEntity<History> getHistory(@PathVariable int historyId) {
         History theHistory = historyService.findById(historyId);
-
-        if(theHistory == null) {
-            throw new RuntimeException("issue id not found : "+historyId);
-        }
         return ResponseEntity.ok().body(theHistory);
     }
 
@@ -52,13 +49,13 @@ public class HistoryController {
         Issue theIssue = issueService.findById(theHistory.getIssue().getId());
 
         if(theIssue == null) {
-            throw new RuntimeException("issue id not found : "+ theHistory.getIssue().getId());
+            throw new CustomNotFoundException("issue id not found ");
         }
 
         User changedBy = userService.findById(theHistory.getChangedBy().getId());
 
         if(changedBy == null){
-            throw new RuntimeException("author id not found : "+ theHistory.getChangedBy().getId());
+            throw new CustomNotFoundException("author id not found ");
         }
 
         theHistory.setIssue(theIssue);
@@ -73,7 +70,7 @@ public class HistoryController {
         History theHistory = historyService.findById(historyId);
 
         if(theHistory == null) {
-            throw new RuntimeException("history id not found : "+ historyId);
+            throw new CustomNotFoundException("history id not found ");
         }
         historyService.deleteById(historyId);
         return theHistory;

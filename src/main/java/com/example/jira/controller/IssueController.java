@@ -2,6 +2,7 @@ package com.example.jira.controller;
 import com.example.jira.entity.Issue;
 import com.example.jira.entity.Project;
 import com.example.jira.entity.User;
+import com.example.jira.exception.CustomNotFoundException;
 import com.example.jira.service.IssueService;
 import com.example.jira.service.ProjectService;
 import com.example.jira.service.UserService;
@@ -39,10 +40,6 @@ public class IssueController {
     @PreAuthorize("hasAuthority('DEVELOPER') or hasAuthority('MANAGER') or hasAuthority('ADMIN')")
     public ResponseEntity<Issue> getIssue(@PathVariable int issueId) {
         Issue theIssue =issueService.findById(issueId);
-
-        if(theIssue == null) {
-            throw new RuntimeException("issue id not found : "+issueId);
-        }
         return ResponseEntity.ok().body(theIssue);
     }
 
@@ -53,19 +50,19 @@ public class IssueController {
         Project project = projectService.findById(theIssue.getProject().getId());
 
         if(project == null) {
-            throw new RuntimeException("project id not found : "+theIssue.getProject().getId());
+            throw new CustomNotFoundException("Project id does not exist");
         }
 
         User reporter = userService.findById(theIssue.getReportTo().getId());
 
         if(reporter == null){
-            throw new RuntimeException("reporter id not found : "+theIssue.getReportTo().getId());
+            throw new CustomNotFoundException("reporter id does not exist");
         }
 
         User assignee = userService.findById(theIssue.getAssignedTo().getId());
 
         if(assignee == null){
-            throw new RuntimeException("assignee id not found : "+theIssue.getAssignedTo().getId());
+            throw new CustomNotFoundException("assignee id does not exist");
         }
 
 //        theIssue.setId(0);
@@ -94,7 +91,7 @@ public class IssueController {
         Issue theIssue = issueService.findById(issueId);
 
         if(theIssue == null) {
-            throw new RuntimeException("issue id not found : "+issueId);
+            throw new CustomNotFoundException("issue id not found");
         }
         issueService.deleteById(issueId);
         return theIssue;

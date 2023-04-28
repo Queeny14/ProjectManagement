@@ -2,6 +2,7 @@ package com.example.jira.service;
 
 import com.example.jira.dao.ProjectRepository;
 import com.example.jira.entity.Project;
+import com.example.jira.exception.CustomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,16 +31,27 @@ public class ProjectServiceImpl implements ProjectService{
     public Project findById(int theId) {
         Optional<Project> result = projectRepository.findById(theId);
 
+        if(result.isEmpty()){
+            throw new CustomNotFoundException("Requested project id does not exist");
+        }
+
         Project theProject = null;
-
-        if (result.isPresent()) {
-            theProject = result.get();
-        }
-        else {
-
-            throw new RuntimeException("Did not find project id - " + theId);
-        }
+        theProject = result.get();
         return theProject;
+
+
+//        Optional<Project> result = projectRepository.findById(theId);
+//
+//        Project theProject = null;
+//
+//        if (result.isPresent()) {
+//            theProject = result.get();
+//        }
+//        else {
+//
+//            throw new RuntimeException("Did not find project id - " + theId);
+//        }
+//        return theProject;
     }
 
     @Override

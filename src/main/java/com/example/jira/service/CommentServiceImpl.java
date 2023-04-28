@@ -2,6 +2,7 @@ package com.example.jira.service;
 
 import com.example.jira.dao.CommentRepository;
 import com.example.jira.entity.Comment;
+import com.example.jira.exception.CustomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,17 +25,24 @@ public class CommentServiceImpl implements CommentService{
     public Comment findById(int theId) {
         Optional<Comment> result = commentRepository.findById(theId);
 
+        if (result.isEmpty()) {
+            throw new CustomNotFoundException("Requested comment id not found");
+        }
+
         Comment theComment = null;
-
-        if (result.isPresent()) {
-            theComment = result.get();
-        }
-        else {
-
-            throw new RuntimeException("Did not find comment id - " + theId);
-        }
+        theComment = result.get();
         return theComment;
     }
+//
+//        if (result.isPresent()) {
+//            theComment = result.get();
+//        }
+//        else {
+//
+//            throw new RuntimeException("Did not find comment id - " + theId);
+//        }
+//        return theComment;
+
 
     @Override
     public void save(Comment theComment) {
