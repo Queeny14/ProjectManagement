@@ -52,7 +52,6 @@ CREATE TABLE IF NOT EXISTS issues (
 --   FOREIGN KEY (reporter_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 -- );
 
--- Users Table
 
 
 -- Comments Table

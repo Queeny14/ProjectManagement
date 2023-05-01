@@ -20,17 +20,14 @@ public class Issue extends Parent{
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "project_id", foreignKey = @ForeignKey(name="issue_project_fk"))
     private Project project;
 
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "reporter_id", foreignKey = @ForeignKey(name="issue_reporter_fk"))
     private User reportTo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "assignee_id", foreignKey = @ForeignKey(name="issue_assignee_fk"))
     private User assignedTo;
 

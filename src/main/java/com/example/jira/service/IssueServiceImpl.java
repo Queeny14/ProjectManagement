@@ -15,7 +15,7 @@ import java.util.Optional;
 public class IssueServiceImpl implements IssueService{
 
     @Autowired
-    private IssueRepository issueRepository ;
+    private IssueRepository issueRepository;
 
     @Autowired
     public IssueServiceImpl(IssueRepository theIssueRepository) {
