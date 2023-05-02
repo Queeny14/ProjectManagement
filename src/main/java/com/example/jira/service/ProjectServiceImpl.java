@@ -61,7 +61,7 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public Project updateProject(int theId, Project projectDetails) {
-        Project project = projectRepository.findById(theId).orElseThrow(() -> new RuntimeException("Project does not exist"));
+        Project project = projectRepository.findById(theId).orElseThrow(() -> new CustomNotFoundException("Project does not exist"));
         project.setName(projectDetails.getName());
         project.setDescription(projectDetails.getDescription());
         project.setStartDate(projectDetails.getStartDate());

@@ -57,7 +57,7 @@ public class IssueServiceImpl implements IssueService{
 
     @Override
     public Issue updateIssue(int theId, Issue issueDetails) {
-       Issue issue =  issueRepository.findById(theId).orElseThrow(() -> new RuntimeException("Issue does not exist"));
+       Issue issue =  issueRepository.findById(theId).orElseThrow(() -> new CustomNotFoundException("Issue does not exist"));
         issue.setDescription(issueDetails.getDescription());
         issue.setPriority(issueDetails.getPriority());
         issue.setSprint(issueDetails.getSprint());
